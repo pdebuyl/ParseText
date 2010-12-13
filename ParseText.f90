@@ -282,6 +282,40 @@ contains
 
   end function PTread_l
 
+  integer function PTread_ivec(PTin, var_name, n)
+    type(PTo), intent(in) :: PTin
+    character(len=*), intent(in) :: var_name
+    integer, intent(in) :: n
+    dimension :: PTread_ivec(n)
+
+    integer :: i
+    character(len=144) :: tempchar
+    integer, dimension(n) :: value
+    logical :: found
+
+    found = .false.
+    do i=1,PTin%nlines
+       if (index(PTin%elements(i),var_name).eq.1) then
+          tempchar = PTin%elements(i)(len(trim(var_name))+1:)
+          tempchar = adjustl(tempchar)
+          if (index(tempchar,trim(PTin%equalsign)).eq.1) then
+             tempchar = adjustl(tempchar)
+             tempchar = tempchar(len(trim(PTin%equalsign))+1:)
+             read(tempchar,*) value
+             found = .true.
+             exit
+          end if
+       end if
+    end do
+
+    if (found) then
+    PTread_ivec = value
+    else
+       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+       stop
+    end if
+
+  end function PTread_ivec
 
 
 
