@@ -123,7 +123,9 @@ contains
     integer :: i
     character(len=144) :: tempchar
     double precision :: value
+    logical :: found
 
+    found = .false.
     do i=1,PTin%nlines
        if (index(PTin%elements(i),var_name).eq.1) then
           tempchar = PTin%elements(i)(len(trim(var_name))+1:)
@@ -132,11 +134,19 @@ contains
              tempchar = adjustl(tempchar)
              tempchar = tempchar(len(trim(PTin%equalsign))+1:)
              read(tempchar,*) value
+             found = .true.
+             exit
           end if
        end if
     end do
 
-    PTread_d = value
+    if (found) then
+       PTread_d = value
+    else
+       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+       stop
+    end if
+
   end function PTread_d
 
   real function PTread_r(PTin, var_name)
@@ -146,7 +156,9 @@ contains
     integer :: i
     character(len=144) :: tempchar
     real :: value
+    logical :: found
 
+    found = .false.
     do i=1,PTin%nlines
        if (index(PTin%elements(i),var_name).eq.1) then
           tempchar = PTin%elements(i)(len(trim(var_name))+1:)
@@ -155,11 +167,19 @@ contains
              tempchar = adjustl(tempchar)
              tempchar = tempchar(len(trim(PTin%equalsign))+1:)
              read(tempchar,*) value
+             found = .true.
+             exit
           end if
        end if
     end do
 
+    if (found) then
     PTread_r = value
+    else
+       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+       stop
+    end if
+
   end function PTread_r
 
 
@@ -170,7 +190,9 @@ contains
     integer :: i
     character(len=144) :: tempchar
     integer :: value
+    logical :: found
 
+    found = .false.
     do i=1,PTin%nlines
        if (index(PTin%elements(i),var_name).eq.1) then
           tempchar = PTin%elements(i)(len(trim(var_name))+1:)
@@ -179,21 +201,31 @@ contains
              tempchar = adjustl(tempchar)
              tempchar = tempchar(len(trim(PTin%equalsign))+1:)
              read(tempchar,*) value
+             found = .true.
+             exit
           end if
        end if
     end do
 
+    if (found) then
     PTread_i = value
+    else
+       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+       stop
+    end if
+
   end function PTread_i
 
-  character*64 function PTread_s(PTin, var_name)
+  character*144 function PTread_s(PTin, var_name)
     type(PTo), intent(in) :: PTin
     character(len=*), intent(in) :: var_name
 
     integer :: i
     character(len=144) :: tempchar
-    character(len=64) :: value
+    character(len=144) :: value
+    logical :: found
 
+    found = .false.
     do i=1,PTin%nlines
        if (index(PTin%elements(i),var_name).eq.1) then
           tempchar = PTin%elements(i)(len(trim(var_name))+1:)
@@ -202,11 +234,19 @@ contains
              tempchar = adjustl(tempchar)
              tempchar = tempchar(len(trim(PTin%equalsign))+1:)
              read(tempchar,*) value
+             found = .true.
+             exit
           end if
        end if
     end do
 
+    if (found) then
     PTread_s = value
+    else
+       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+       stop
+    end if
+
   end function PTread_s
 
   logical function PTread_l(PTin, var_name)
@@ -216,7 +256,9 @@ contains
     integer :: i
     character(len=144) :: tempchar
     logical :: value
+    logical :: found
 
+    found = .false.
     do i=1,PTin%nlines
        if (index(PTin%elements(i),var_name).eq.1) then
           tempchar = PTin%elements(i)(len(trim(var_name))+1:)
@@ -225,11 +267,19 @@ contains
              tempchar = adjustl(tempchar)
              tempchar = tempchar(len(trim(PTin%equalsign))+1:)
              read(tempchar,*) value
+             found = .true.
+             exit
           end if
        end if
     end do
 
+    if (found) then
     PTread_l = value
+    else
+       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+       stop
+    end if
+
   end function PTread_l
 
 
