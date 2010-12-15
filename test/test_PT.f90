@@ -4,7 +4,7 @@ program test_PT
 
   type(PTo) :: CF
 
-  double precision :: x
+  double precision :: x,y(5)
   integer :: N(3)
   call PTparse(CF,'sample_file',5)
 
@@ -15,6 +15,10 @@ program test_PT
   N = PTread_ivec(CF, 'N', size(N))
 
   write(*,*) N
+
+  y = PTread_dvec(CF, 'y', size(y))
+
+  write(*,*) y
 
   call PTkill(CF)
 
