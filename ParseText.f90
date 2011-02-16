@@ -1,7 +1,22 @@
-! Fortran ParseText module by Pierre de Buyl pdebuyl@(nospam).ulb.ac.be
+!
+! Copyright 2011 Pierre de Buyl
+!
+!     This program is free software: you can redistribute it and/or modify
+!     it under the terms of the GNU General Public License as published by
+!     the Free Software Foundation, either version 3 of the License, or
+!     (at your option) any later version.
+!
+!     This program is distributed in the hope that it will be useful,
+!     but WITHOUT ANY WARRANTY; without even the implied warranty of
+!     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!     GNU General Public License for more details.
+
+!     You should have received a copy of the GNU General Public License
+!     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ! The following fortran 90 module helps parsing small text files for use
 ! as input in fortran programs.
-
+!
 ! note : fixed length : length of a line -> elements et tempchar
 !                     : length of the PTread_s function
 
@@ -25,6 +40,30 @@ module ParseText
   end type PTo
 
 contains
+
+  subroutine PTinfo(short)
+    logical, intent(in), optional :: short
+    logical :: short_var
+    include 'version.h'
+
+    if (present(short)) then
+       short_var = .true.
+    else
+       short_var = .false.
+    end if
+
+    if (short_var) then
+       write(*,*) 'ParseText> Version/date : ', trim(adjustl(ParseText_version_date))
+    else
+       write(*,*) 'ParseText> Library ParseText, to use human readable config files'
+       write(*,*) 'ParseText> (C) 2011 P. de Buyl.'
+       write(*,*) 'ParseText> Version/date : ', trim(adjustl(ParseText_version_date))
+       write(*,*) 'ParseText> Git commit   : ', trim(ParseText_commit)
+       write(*,*) 'ParseText> Built on     : ', trim(ParseText_machine)
+       write(*,*) 'ParseText> Compiler     : ', trim(ParseText_compiler)
+    end if
+
+  end subroutine PTinfo
 
   subroutine PTparse(PTin, filename, fileunit, equalsign, comment)
     type(PTo), intent(out) :: PTin

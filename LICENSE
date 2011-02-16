@@ -1,0 +1,7 @@
+This package is built on several licenses:
+
+In-code license for the original sources of stdtypes.f90 and mtprng.f90.
+GPL >= v3 for modifications of these files.
+
+The GPLv3 licence is found in the file GPLv3.
+

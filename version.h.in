@@ -1,0 +1,6 @@
+
+character(len=200), parameter :: ParseText_version_date = '@ParseText_version_date@'
+character(len=200), parameter :: ParseText_commit = '@ParseText_commit@'
+character(len=200), parameter :: ParseText_machine = '@ParseText_machine@'
+character(len=200), parameter :: ParseText_compiler = '@ParseText_compiler@'
+

@@ -1,0 +1,25 @@
+Mersenne Twister pseudo random number generator
+
+1. Overview
+   This is a f95 library that implements the Mersenne Twister
+  RNG. It is based on code by Scott Robert Ladd.
+
+2. In order to use this library, do the following:
+mkdir build
+cd build
+cmake -D CMAKE_INSTALL_PREFIX=WHERE_YOU_WANT_TO_INSTALL ..
+make
+make install
+
+You can install either as a system library (to /usr/local/ or to 
+/opt/mtprng-vxxx (where xxx is the version number) or to a working
+directory of a larger code.
+You may and should specify your C and Fortran compiler via the
+-D CMAKE_C_COMPILER=/full/path/to/compiler
+-D CMAKE_Fortran_COMPILER=/full/path/to/compiler
+options.
+
+to use, follow the example fortran file, and compile with
+gfortran -o prog prog.f90 -I/path/to/include -L/path/to/lib \
+-lmtprng
+
