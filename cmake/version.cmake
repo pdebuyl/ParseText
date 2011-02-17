@@ -28,11 +28,11 @@ SET(ParseText_version_date "${ParseText_version} ${ParseText_date}")
 execute_process(COMMAND "uname" "-nsm" OUTPUT_VARIABLE ParseText_machine OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND "basename" "${CMAKE_Fortran_COMPILER}" OUTPUT_VARIABLE ParseText_compiler OUTPUT_STRIP_TRAILING_WHITESPACE)
 SET(ParseText_compiler "${ParseText_compiler} ${CMAKE_Fortran_FLAGS}")
-configure_file(${SRC}/version.h.in ${F95_MOD_DIR}/version.h @ONLY)
+configure_file(${SRC}/PT_version.h.in ${F95_MOD_DIR}/PT_version.h @ONLY)
 
 else(GIT_EXECUTABLE)
 
-configure_file(${SRC}/f95/version.h.git.in ${F95_MOD_DIR}/version.h COPYONLY)
+configure_file(${SRC}/f95/PT_version.h.git.in ${F95_MOD_DIR}/PT_version.h COPYONLY)
 
 endif(GIT_EXECUTABLE)
 

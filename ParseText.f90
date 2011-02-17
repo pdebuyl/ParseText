@@ -44,7 +44,7 @@ contains
   subroutine PTinfo(short)
     logical, intent(in), optional :: short
     logical :: short_var
-    include 'version.h'
+    include 'PT_version.h'
 
     if (present(short)) then
        short_var = .true.
