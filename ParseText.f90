@@ -155,9 +155,10 @@ contains
     end if
   end subroutine PTkill
 
-  double precision function PTread_d(PTin, var_name)
+  double precision function PTread_d(PTin, var_name, default)
     type(PTo), intent(in) :: PTin
     character(len=*), intent(in) :: var_name
+    double precision, intent(in), optional :: default
 
     integer :: i
     character(len=144) :: tempchar
@@ -182,8 +183,12 @@ contains
     if (found) then
        PTread_d = value
     else
-       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
-       stop
+       if (present(default)) then
+          PTread_d = default
+       else
+          write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+          stop
+       end if
     end if
 
   end function PTread_d
@@ -222,9 +227,10 @@ contains
   end function PTread_r
 
 
-  integer function PTread_i(PTin, var_name)
+  integer function PTread_i(PTin, var_name, default)
     type(PTo), intent(in) :: PTin
     character(len=*), intent(in) :: var_name
+    integer, intent(in), optional :: default
 
     integer :: i
     character(len=144) :: tempchar
@@ -247,10 +253,14 @@ contains
     end do
 
     if (found) then
-    PTread_i = value
+       PTread_i = value
     else
-       write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
-       stop
+       if (present(default)) then
+          PTread_i = default
+       else
+          write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+          stop
+       end if
     end if
 
   end function PTread_i
