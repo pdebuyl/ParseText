@@ -31,7 +31,8 @@ target_link_libraries(example ParseText)
 add_executable(test_PT test/test_PT.f90)
 target_link_libraries(test_PT ParseText)
 
-add_test(test_PT test_PT PROPERTIES PASS_REGULAR_EXPRESSION "success")
+add_test(NAME test_PT COMMAND test_PT WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
+set_tests_properties(test_PT PROPERTIES PASS_REGULAR_EXPRESSION "success")
 
 install(TARGETS ParseText LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/ DESTINATION include)
