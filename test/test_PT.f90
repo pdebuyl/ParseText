@@ -6,22 +6,13 @@ program test_PT
 
   double precision :: x,y(5), y_known(5)
   integer :: N(3), N_known(3)
-  logical :: is_att(4)
+  logical :: is_att(4), is_att_known(4)
   logical :: success
   integer :: i
 
-  open(11,file='sample_file')
-
-  write(11,*) 'x = 1.d0'
-  write(11,*) '#N = 93 0 0'
-  write(11,*) 'N = -5 2 10'
   N_known = (/ -5 , 2, 10 /)
-  write(11,*) 'y = 1.d0 -100.d0 10d5 39. 0.'
   y_known = (/ 1.d0,  -100.d0,  10d5,  39.d0,  0.d0 /)
-  write(11,*) 'is_att = F F T T'
-
-  close(11)
-
+  is_att_known = (/ .false., .false., .false., .true. /)
   call PTparse(CF,'sample_file',5)
 
   success = .true.
@@ -52,7 +43,7 @@ program test_PT
 
   is_att = PTread_lvec(CF,'is_att',size(is_att))
   do i=1,size(is_att)
-     if (is_att(i).neqv.is_att(i)) then
+     if (is_att(i).neqv.is_att_known(i)) then
         success = .false.
         write(*,*) 'failure for is_att', i
      end if
