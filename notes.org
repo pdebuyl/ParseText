@@ -4,3 +4,43 @@
 This module is intended to read short configuration files for Fortran 90 programs. It is based on a user-defined type =PTo=. Upon loading of a file, all lines starting by the comment character are cancelled out. Then, a series a type-specific routine allow the reading of variables. The line that is read will begin by the variable name and be immediately followed by the designated separator symbol (the equal sign by default).
 
 If the given variable is not found in the file, the program stops.
+
+* ideas for testing
+
+idea: generate sample files to parse
+
+read with templated fortran code. output only 'success' or 'error' on stdout.
+
+data: dict of key/values
+
+#+begin_src f90
+  integer :: i
+
+  i = PTread_i(PTo, 'i', default=3)
+
+  n_errors = n_errors + check_equal(i, {i})
+
+#+end_src
+
+example template
+
+#+begin_src f90
+  program test
+    use ParseText
+    implicit none
+
+    type(PTo) :: parser
+    integer :: n_errors
+
+    n_errors = 0
+
+CONTENT
+
+    if (n_errors > 0) then
+       write(*,*) 'error count', n_errors
+    else
+       write(*,*) 'success)
+    end if
+
+  end program test
+#+end_src
