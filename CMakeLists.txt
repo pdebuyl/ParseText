@@ -31,17 +31,17 @@ target_link_libraries(example ParseText)
 add_executable(test_PT test/test_PT.f90)
 target_link_libraries(test_PT ParseText)
 
-add_executable(test_fail_0 test/test_fail_0.f90)
+add_executable(test_fail_0 test/test_fail_0.f90 test/tester.f90)
 target_link_libraries(test_fail_0 ParseText)
 
-add_executable(test_default_0 test/test_default_0.f90)
+add_executable(test_default_0 test/test_default_0.f90 test/tester.f90)
 target_link_libraries(test_default_0 ParseText)
 
 add_test(NAME test_PT COMMAND test_PT WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
 add_test(NAME test_fail_0 COMMAND test_fail_0 WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
 add_test(NAME test_default_0 COMMAND test_default_0 WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-set_tests_properties(test_PT test_fail_0 test_default_0 PROPERTIES PASS_REGULAR_EXPRESSION "success")
-set_tests_properties(test_fail_0 PROPERTIES WILL_FAIL true)
+set_tests_properties(test_PT PROPERTIES PASS_REGULAR_EXPRESSION "success")
+set_tests_properties(test_fail_0 test_default_0 PROPERTIES PASS_REGULAR_EXPRESSION "all tests succeeded")
 
 install(TARGETS ParseText LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/ DESTINATION include)
