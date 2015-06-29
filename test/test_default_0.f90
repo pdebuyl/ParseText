@@ -1,24 +1,22 @@
 program test_PT
   use ParseText
+  use tester
   implicit none
 
   type(PTo) :: CF
+  type(tester_t) :: tester
 
   double precision :: k
-  logical :: success
 
   call PTparse(CF,'sample_file',5)
 
-  success = .true.
+  call tester% init()
 
   k = PTread_d(CF,'k', 3.d0)
-  if (k .ne. 3.d0) then
-     success = .false.
-     write(*,*) 'failure for k'
-  end if
+  call tester% assert_equal(k, 3.d0)
 
   call PTkill(CF)
 
-  if(success) write(*,*) 'success'
+  call tester% print()
 
 end program test_PT
