@@ -255,7 +255,7 @@ contains
 
   end function PTread_i
 
-  character*144 function PTread_s(PTin, var_name)
+  character(len=144) function PTread_s(PTin, var_name)
     type(PTo), intent(in) :: PTin
     character(len=*), intent(in) :: var_name
 
