@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-project(ParseText)
+project(ParseText Fortran)
 FIND_PACKAGE(Git)
 
-enable_language(Fortran)
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules)
 ENABLE_TESTING()
 if (CMAKE_Fortran_COMPILER MATCHES "gfortran")
