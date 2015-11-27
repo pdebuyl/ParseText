@@ -4,19 +4,19 @@ program test_PT
   implicit none
 
   type(PTo) :: CF
-  type(tester_t) :: tester
+  type(tester_t) :: test
 
   double precision :: k
 
   call PTparse(CF,'sample_file',5)
 
-  call tester% init()
+  call test% init()
 
   k = PTread_d(CF,'k', 3.d0)
-  call tester% assert_equal(k, 3.d0)
+  call test% assert_equal(k, 3.d0)
 
   call PTkill(CF)
 
-  call tester% print()
+  call test% print()
 
 end program test_PT
