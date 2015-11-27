@@ -6,12 +6,11 @@ project(ParseText Fortran)
 FIND_PACKAGE(Git)
 
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules)
-ENABLE_TESTING()
+
 if (CMAKE_Fortran_COMPILER MATCHES "gfortran")
   # gfortran
   set (CMAKE_Fortran_FLAGS "-ffree-line-length-none")
 endif (CMAKE_Fortran_COMPILER MATCHES "gfortran")
-
 
 add_custom_target(ParseText_version ${CMAKE_COMMAND} -D
 SRC=${CMAKE_CURRENT_SOURCE_DIR} -D
@@ -28,20 +27,11 @@ add_dependencies(ParseText ParseText_version)
 add_executable(example example.f90)
 target_link_libraries(example ParseText)
 
-add_executable(test_PT test/test_PT.f90 test/tester.f90)
-target_link_libraries(test_PT ParseText)
-
-add_executable(test_fail_0 test/test_fail_0.f90 test/tester.f90)
-target_link_libraries(test_fail_0 ParseText)
-
-add_executable(test_default_0 test/test_default_0.f90 test/tester.f90)
-target_link_libraries(test_default_0 ParseText)
-
-add_test(NAME test_PT COMMAND test_PT WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-add_test(NAME test_fail_0 COMMAND test_fail_0 WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-add_test(NAME test_default_0 COMMAND test_default_0 WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-
 install(TARGETS ParseText LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/ DESTINATION include)
 
+if(BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(test)
+endif()
 
