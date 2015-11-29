@@ -19,10 +19,10 @@ Then the values can be obtained via a set of typed commands:
     N = PTread_ivec(config, 'N', 3)
     flag = PTread_l(config, 'flag')
 
-## Author
+## Licensing, etc
 
-ParseText is written by [Pierre de Buyl](http://pdebuyl.be/).
+ParseText is distributed under the BSD-3-clause license (see LICENSE) and
+is written by [Pierre de Buyl](http://pdebuyl.be/).
 
-## Contributors
-
+Contributions have been made by the following persons:  
 Peter Colberg
