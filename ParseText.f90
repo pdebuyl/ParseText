@@ -10,6 +10,7 @@
 !                     : length of the PTread_s function
 
 module ParseText
+  use iso_c_binding
 
   ! a defined type that contains all the info from the input file
   type PTo
@@ -253,6 +254,44 @@ contains
     end if
 
   end function PTread_i
+
+  integer(c_int64_t) function PTread_c_int64(PTin, var_name, default) result(r)
+    type(PTo), intent(in) :: PTin
+    character(len=*), intent(in) :: var_name
+    integer, intent(in), optional :: default
+
+    integer :: i
+    character(len=144) :: tempchar
+    integer(c_int64_t) :: value
+    logical :: found
+
+    found = .false.
+    do i=1,PTin%nlines
+       if (index(PTin%elements(i),var_name).eq.1) then
+          tempchar = PTin%elements(i)(len(trim(var_name))+1:)
+          tempchar = adjustl(tempchar)
+          if (index(tempchar,trim(PTin%equalsign)).eq.1) then
+             tempchar = adjustl(tempchar)
+             tempchar = tempchar(len(trim(PTin%equalsign))+1:)
+             read(tempchar,*) value
+             found = .true.
+             exit
+          end if
+       end if
+    end do
+
+    if (found) then
+       r = value
+    else
+       if (present(default)) then
+          r = default
+       else
+          write(*,*) 'variable ',var_name,' not found in the file ',PTin%filename
+          stop
+       end if
+    end if
+
+  end function PTread_c_int64
 
   character(len=144) function PTread_s(PTin, var_name)
     type(PTo), intent(in) :: PTin
