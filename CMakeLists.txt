@@ -12,6 +12,14 @@ if (CMAKE_Fortran_COMPILER MATCHES "gfortran")
   set (CMAKE_Fortran_FLAGS "-ffree-line-length-none")
 endif (CMAKE_Fortran_COMPILER MATCHES "gfortran")
 
+option(PT_HDF5 "Enable HDF5 storage" OFF)
+
+if(PT_HDF5)
+  find_package(HDF5 COMPONENTS Fortran)
+  include_directories(${CMAKE_Fortran_MODULE_DIRECTORY} ${HDF5_Fortran_INCLUDE_DIR})
+  add_definitions(-DPT_HDF5)
+endif(PT_HDF5)
+
 add_custom_target(ParseText_version ${CMAKE_COMMAND} -D
 SRC=${CMAKE_CURRENT_SOURCE_DIR} -D
 F95_MOD_DIR=${CMAKE_Fortran_MODULE_DIRECTORY} -D
@@ -21,7 +29,10 @@ CMAKE_Fortran_FLAGS=${CMAKE_Fortran_FLAGS} -P
 ${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.cmake)
 
 include_directories(${CMAKE_Fortran_MODULE_DIRECTORY}) 
-add_library(ParseText ParseText.f90)
+add_library(ParseText ParseText.F90)
+if(PT_HDF5)
+  target_link_libraries(ParseText ${HDF5_Fortran_LIBRARIES} ${CMAKE_DL_LIBS})
+endif(PT_HDF5)
 add_dependencies(ParseText ParseText_version)
 
 add_executable(example example.f90)
