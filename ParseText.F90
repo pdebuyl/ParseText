@@ -44,6 +44,7 @@ module ParseText
      module procedure hdf5_util_write_dataset_rs
      module procedure hdf5_util_write_dataset_r1
      module procedure hdf5_util_write_dataset_cs
+     module procedure hdf5_util_write_dataset_c_int64_ts
   end interface hdf5_util_write_dataset
 #endif
 
@@ -766,6 +767,30 @@ contains
 
   end subroutine hdf5_util_write_dataset_cs
 
+  subroutine hdf5_util_write_dataset_c_int64_ts(loc, name, value)
+    integer(HID_T), intent(inout) :: loc
+    character(len=*), intent(in) :: name
+    integer(c_int64_t), intent(in) :: value
+
+    integer(HID_T) :: d, s, t
+    integer :: error
+    integer, parameter :: rank=1
+    integer(HSIZE_T) :: dims(rank)
+    type(c_ptr) :: f_ptr
+    integer(c_int64_t), target :: tmp
+
+    t = h5kind_to_type(c_int64_t,H5_INTEGER_KIND)
+    dims(1) = 1
+
+    call h5screate_f(H5S_SCALAR_F, s, error)
+    call h5dcreate_f(loc, name, t, s, d, error)
+    tmp = value
+    f_ptr = c_loc(tmp)
+    call h5dwrite_f(d, t, f_ptr, error)
+    call h5dclose_f(d, error)
+    call h5sclose_f(s, error)
+
+  end subroutine hdf5_util_write_dataset_c_int64_ts
 #endif
 
 end module ParseText
