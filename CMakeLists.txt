@@ -38,9 +38,6 @@ add_dependencies(ParseText ParseText_version)
 add_executable(example example.f90)
 target_link_libraries(example ParseText)
 
-install(TARGETS ParseText LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
-install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/ DESTINATION include)
-
 if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(test)
