@@ -100,7 +100,7 @@ contains
        allocate(PTin%elements(PTin%nlines))
     else
        write(*,*) 'filename = ', filename
-       stop 'No line to parse in PTparse'
+       error stop 'No line to parse in PTparse'
     end if
 
     i = 1
