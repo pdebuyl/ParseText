@@ -1,13 +1,11 @@
-add_executable(test_PT test_PT.f90 tester.f90)
-target_link_libraries(test_PT ParseText)
+add_subdirectory(fortran_tester)
 
-add_executable(test_fail_0 test_fail_0.f90 tester.f90)
-target_link_libraries(test_fail_0 ParseText)
+foreach(test_name test_PT test_fail_0 test_fail_1 test_default_0)
+add_executable(${test_name} ${test_name}.f90)
+target_link_libraries(${test_name} ParseText fortran_tester)
+add_test(${test_name} ${test_name})
+endforeach(test_name)
 
-add_executable(test_default_0 test_default_0.f90 tester.f90)
-target_link_libraries(test_default_0 ParseText)
+set_tests_properties(test_fail_1 PROPERTIES WILL_FAIL TRUE)
 
-add_test(NAME test_PT COMMAND test_PT WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-add_test(NAME test_fail_0 COMMAND test_fail_0 WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-add_test(NAME test_default_0 COMMAND test_default_0 WORKING_DIRECTORY ${CMAKE_HOME_DIRECTORY}/test)
-
+file(COPY sample_file DESTINATION .)
