@@ -15,8 +15,9 @@ endif (CMAKE_Fortran_COMPILER MATCHES "gfortran")
 option(PT_HDF5 "Enable HDF5 storage" OFF)
 
 if(PT_HDF5)
-  find_package(HDF5 COMPONENTS Fortran)
-  include_directories(${CMAKE_Fortran_MODULE_DIRECTORY} ${HDF5_Fortran_INCLUDE_DIR})
+  find_package(HDF5 COMPONENTS Fortran REQUIRED)
+  include_directories(${CMAKE_Fortran_MODULE_DIRECTORY}
+  ${HDF5_Fortran_INCLUDE_DIR} ${HDF5_Fortran_INCLUDE_DIRS})
   add_definitions(-DPT_HDF5)
 endif(PT_HDF5)
 
